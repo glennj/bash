@@ -137,12 +137,6 @@ source complex_numbers.sh
     [[ $status -eq 0 ]]
     [[ $output == "0.44i0.08" ]]
 }
-# @q
-# Djcf:@test$s {wc3f"    run ComplexNumber::f"DJDJdf:f[xf,2sif]DJdf:f[xf,2sif]xo[[ $status -eq 0 ]]jddcf:    [[ $output == lcf["f,2sif]s" ]]}jdd:wk
-
-# @w
-# Djcf:@test$s {wc3f"    run ComplexNumber::f"DJDJdf:f[xf,2sif]xo[[ $status -eq 0 ]]jddcf:    [[ $output == A ]]}jdd:wk
-
 
 @test "Absolute value of a positive purely real number" {
     run ComplexNumber::abs 5i0

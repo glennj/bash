@@ -73,7 +73,7 @@ ComplexNumber::exp() {
     local a b
     IFS="i" read -r a b <<< "$1"
     awk -v OFS=i -v a=$a -v b=$b '
-        function trunc(n,     a) { 
+        function trunc(n,     a) {
             a = sprintf("%.6f", n)
             sub(/[1-9]$/, "", a)
             sub(/0+$/, "", a)
