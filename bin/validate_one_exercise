@@ -7,6 +7,7 @@ set -o errexit
 set -o nounset
 
 export BATS_RUN_SKIPPED=true    # run all the tests
+export BATS_VERBOSE=true
 
 cd "$1" || {
     echo "Cannot cd to $1" >&2
