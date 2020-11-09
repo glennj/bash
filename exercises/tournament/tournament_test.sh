@@ -11,6 +11,25 @@
 setup()    { export INPUT_FILE=$( mktemp ); }
 teardown() { rm -f "$INPUT_FILE"; }
 
+
+failure_output() {
+    local fmt=$1
+    printf "   Test Case: %s\n" "$BATS_TEST_DESCRIPTION"
+    for v in expected actual; do
+        printf "     %s = $fmt\n" "$v" "${!v}"
+    done
+    return 1
+}
+assert_int() {
+    local actual=$1 expected=$2
+    (( actual == expected )) || failure_output '%d'
+}
+assert_str() {
+    local actual=$1 expected=$2
+    [[ $actual == "$expected" ]] || failure_output '"%s"'
+}
+
+############################################################
 @test "just the header if no input" {
     #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
 
@@ -24,8 +43,8 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "a win is three points, a loss is zero points" {
@@ -43,8 +62,8 @@ EXPECTED
 )
 
     run bash tournament.sh "$INPUT_FILE"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "a win can also be expressed as a loss" {
@@ -63,8 +82,8 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "a different team can win" {
@@ -83,8 +102,8 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "a draw is one point each" {
@@ -103,8 +122,8 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "There can be more than one match" {
@@ -124,8 +143,8 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "There can be more than one winner" {
@@ -145,8 +164,8 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "There can be more than two teams" {
@@ -168,8 +187,8 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "typical input" {
@@ -195,8 +214,8 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "incomplete competition (not all pairs have played)" {
@@ -219,8 +238,8 @@ EXPECTED
 )
 
     run bash tournament.sh "$INPUT_FILE"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
 
 @test "ties broken alphabetically" {
@@ -246,6 +265,6 @@ EXPECTED
 )
 
     run bash tournament.sh  <<< "$input"
-    (( status == 0 ))
-    [[ $output == "$expected" ]]
+    assert_int "$status" 0
+    assert_str "$output" "$expected"
 }
