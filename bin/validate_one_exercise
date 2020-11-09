@@ -30,4 +30,4 @@ trap cleanup EXIT
 cp example.sh "${exercise_name}.sh"
 
 # Run the tests
-bats "${exercise_name}_test.sh"
+bats --formatter tap "${exercise_name}_test.sh" < /dev/tty
