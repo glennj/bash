@@ -8,7 +8,7 @@
 # usage: dnd_character.sh generate
 # -> output each characteristic and ability value, one per line
 
-: ${BATS_ADDON_DIR:=/usr/local/lib}
+: "${BATS_ADDON_DIR:=/usr/local/lib}"
 load "${BATS_ADDON_DIR}/bats-support/load.bash"
 load "${BATS_ADDON_DIR}/bats-assert/load.bash"
 
